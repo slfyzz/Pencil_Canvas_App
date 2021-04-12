@@ -1,0 +1,62 @@
+<div class="my-overlay" *ngIf="showOverlay">
+  <i class="fa fa-spinner fa-spin" aria-hidden="true">
+    <div class="spinner-grow text-primary" role="status">
+    </div>
+    <div class="spinner-grow text-success" role="status">
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+    </div>
+  </i>
+</div>
+<div class="canvas-utils">
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="FreeDrawing" value={{freeHandDrawing}} (change)="toggleFreeHandDrawing()">
+    <label class="form-check-label" for="FreeDrawing">Free-Hand Drawing</label>
+    <div class="if-drawing-is-On">
+      <label for="stroke_width" class="form-label">Stroke Width : {{strokeWidth }}</label>
+      <input type="range" class="form-range" min="1" max="100" step="0.5" (change)="updateStrokeWidth()" value="{{strokeWidth}}" [(ngModel)]="strokeWidth" id="stroke_width">
+      <label for="drawing-color" class="labelTexts">Line color:  </label>
+      <input type="color" value="{{strokeColor}}" (change)="updateStrokeColor()" [(ngModel)]="strokeColor" id="drawing-color">
+    </div>
+  </div>
+  <div>
+    <br>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" id="imgUploader" hidden>
+    <label for="imgUploader" id="labelImgUploader">Choose Image</label>
+    <button type="button" class="btn btn-danger ClearButton" data-toggle="modal" data-target="#ClearModal">Clear</button>
+
+    <button type="button" class="btn btn-danger ClearButton" [disabled]="!canvas || canvas.getActiveObjects().length === 0" (click)="remove()">Remove</button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="ClearModal" tabindex="-1" role="dialog" aria-labelledby="ClearModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ClearModalLabel">Sure ? </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure to Clear the whole Canvas?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="clear()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div c class="loading">
+      <span *ngIf="!numberOfSavesToDB"><strong>All is Saved.</strong></span>
+      <div *ngIf="numberOfSavesToDB">
+        <div class="spinner-border text-primary" role="status"> </div>
+        <span>Saving...</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="canvas container-fluid">
+  <canvas width="1500" height="600" id="canvas"></canvas>
+</div>

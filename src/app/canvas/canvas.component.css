@@ -1,0 +1,80 @@
+.canvas-utils {
+  padding: 20px;
+  width: 100%;
+}
+
+.canvas {
+  display: block;
+}
+
+.if-drawing-is-On {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: scale(0.8);
+  transition: 0.5s;
+}
+
+input[type="checkbox"]:checked ~ .if-drawing-is-On {
+  opacity: 1;
+  max-height: 100px; /* little bit of a magic number :( */
+  overflow: visible;
+  padding: 10px 20px;
+  transform: scale(1);
+}
+
+.labelTexts {
+  padding: 10px;
+}
+
+.loading {
+  float: right;
+}
+
+span {
+  padding: 5px;
+  font-size: 13px;
+}
+
+
+.my-overlay {
+  left: 0 !important;
+  top: 0 !important;
+  z-index: 10000 !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed !important;
+  background-color: rgba(0,0,0,0.9) !important;
+  cursor: pointer !important;
+  visibility: visible !important;
+  transition: visibility 0s, opacity 0.4s linear !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: wait !important;
+}
+.my-overlay i.fa.fa-spinner.fa-spin, .spinner-big {
+  font-size: 100px !important;
+}
+
+.spinner-grow {
+  padding: 10px;
+}
+#labelImgUploader {
+  background-color: indigo;
+  color: white;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.ClearButton {
+  margin-left: 20px;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  font-family: sans-serif;
+
+
+
+}
