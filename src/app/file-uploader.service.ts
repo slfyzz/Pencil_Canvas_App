@@ -5,6 +5,14 @@ import { fabric } from 'fabric';
   providedIn: 'root'
 })
 export class FileUploaderService {
+  constructor() { }
+
+  /**
+   * Load Image as a file, which is uploaded from local storage, to Canvas and if it's done successfully we can perform a callback function.
+   * @param img Image file from file input html element.
+   * @param canvas fabric Canvas Object.
+   * @param AfterAddingImgCallBack Callback function if img loading is done successfully.
+   */
   loadImgToCanvas(img: File, canvas: fabric.Canvas | undefined, AfterAddingImgCallBack: (n: void) => void): void {
     const reader = new FileReader();
     reader.onload =  (event) => {
@@ -17,9 +25,8 @@ export class FileUploaderService {
           // start fabricJS part.
           const image = new fabric.Image(imgObj);
           image.set({
-              left: 250,
-              top: 250,
-              angle: 20,
+              left: 20,
+              top: 20,
               padding: 10,
           });
           if (canvas) {
@@ -31,6 +38,4 @@ export class FileUploaderService {
     };
     reader.readAsDataURL(img);
   }
-
-  constructor() { }
 }

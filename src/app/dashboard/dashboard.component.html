@@ -1,0 +1,36 @@
+<div class="my-overlay" *ngIf="!(UserCanvasObservable | async) || !(SharedCanvasObservable | async)">
+  <i class="fa fa-spinner fa-spin" aria-hidden="true">
+    <div class="spinner-grow text-primary" role="status">
+    </div>
+    <div class="spinner-grow text-success" role="status">
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+    </div>
+  </i>
+</div>
+
+<div *ngIf="user">
+  <h1> Hello, {{user.displayName}}</h1>
+  <h3>Owned Canvas</h3>
+
+  <!--<button class="btn btn-primary card-buttons" (click)="createCanvas()"> Create Now</button>-->
+
+  <div *ngFor="let canvas of UserCanvasObservable | async">
+    <div class="CanvasInfo">
+      <h5 class="card-title field"> {{canvas.name}} </h5>
+      <p class="card-text"><strong> Canvas ID : </strong> {{ canvas.id }} <br></p>
+    </div>
+    <a  href="/canvas/{{ canvas.userID }}/{{ canvas.id }}" class="btn btn-primary reveal">Go To Canvas</a>
+  </div>
+
+
+  <h3>Shared Canvas</h3>
+  <div *ngFor="let canvas of SharedCanvasObservable | async">
+    <div class="CanvasInfo">
+      <h5 class="card-title">{{canvas.name}}</h5>
+      <p class="card-text"><strong> Canvas ID : </strong>{{ canvas.id }} <br> <strong> Canvas Owner : </strong>{{ canvas.from }}</p>
+    </div>
+    <a href="/canvas/{{ canvas.userID }}/{{ canvas.id }}" class="btn btn-primary reveal">Go To Canvas</a>
+  </div>
+</div>
+

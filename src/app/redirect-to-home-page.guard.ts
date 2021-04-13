@@ -7,15 +7,19 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class RedirectToHomePageGuard implements CanActivate {
+export class RedirectToHomePageGuardIfAuth implements CanActivate {
 
   constructor(private auth: AuthenticationService, private router: Router) {}
 
+  /**
+   * Return True if the user is not Authenticated to navigate to Login Page,
+   * otherwise it get redirected to Home Page.
+   */
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.auth.isAuthenticated()) {
-      this.router.navigate(['/canvas']);
+      this.router.navigate(['/dashboard']);
     }
     return true;
   }

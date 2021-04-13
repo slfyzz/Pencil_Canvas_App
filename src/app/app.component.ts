@@ -10,6 +10,7 @@ import {
 } from '@angular/router';
 
 import { AuthenticationService } from './authentication.service';
+import { CanvasesService } from './canvases.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,9 +18,10 @@ import { AuthenticationService } from './authentication.service';
 })
 export class AppComponent implements OnInit {
   title = 'Canvas';
-  public showOverlay = true;
+  showOverlay = true;
+  canvasName = '';
 
-  constructor(public auth: AuthenticationService, private router: Router) {
+  constructor(public auth: AuthenticationService, private router: Router, private canvasService: CanvasesService) {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
@@ -51,5 +53,15 @@ export class AppComponent implements OnInit {
     this.auth.logout(() => {
       this.router.navigate(['/login']);
     });
+  }
+
+  createCanvas(event: any): void{
+    console.log(event);
+    const user = this.auth.getCurrentUser();
+    if (user) {
+      const canvasID = this.canvasService.createCanvas(user.uid, user.displayName || user.email || user.uid, this.canvasName);
+      this.canvasName = '';
+      this.router.navigate(['/canvas/' + user.uid + '/' + canvasID]);
+    }
   }
 }

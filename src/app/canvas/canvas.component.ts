@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { fabric } from 'fabric';
 import { FileUploaderService } from '../file-uploader.service';
 import { StorageService } from '../storage.service';
+import { AuthenticationService } from '../authentication.service';
+import { ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -14,11 +16,17 @@ export class CanvasComponent implements OnInit {
 
   canvas?: fabric.Canvas;
 
+  // any random value for now.
+  canvasID = new Date().toString();
+
+  // it's bind with share field, to get the Email input from user.
+  shareTo = '';
+
   // some stroke options.
   strokeWidth = 20;
   strokeColor = '#005E7A';
 
-  // If it's saving to db.
+  // To keep track of number of save requests, to keep 'loading spinner' working until numberOfSaves be 0 again.
   numberOfSavesToDB = 0;
 
   // loading Screen
@@ -26,20 +34,34 @@ export class CanvasComponent implements OnInit {
 
   freeHandDrawing = false;
 
-  constructor(private storage: StorageService, private fileUploader: FileUploaderService) { }
+  // if it's read-only canvas, it must be false.
+  editable = false;
+
+  constructor(private storage: StorageService,
+              private fileUploader: FileUploaderService,
+              private auth: AuthenticationService,
+              private route: ActivatedRoute) { }
   ngOnInit(): void {
+
+    // if it's the owner of the Canvas, then it's editable.
+    this.editable = this.auth.getUserUID() === this.route.snapshot.paramMap.get('userID');
+
     // Initialize the canvas
     this.canvas = new fabric.Canvas('canvas', {
       hoverCursor: 'hand',
-      selection: true,
+      selection: this.editable,
       backgroundColor: '#F0F8FF',
       selectionBorderColor: 'blue',
       defaultCursor: 'hand',
-      isDrawingMode: this.freeHandDrawing // As default, But can be toggled by the user.
+      isDrawingMode: this.editable && this.freeHandDrawing
     });
 
+    // set width and height.
     this.canvas.setWidth(document.body.offsetWidth);
     this.canvas.setHeight(window.innerHeight);
+
+    // get Canvas ID from URL
+    this.canvasID = this.route.snapshot.paramMap.get('canvasID') || this.canvasID;
 
     // If there's a saved Canvas, then it would be loaded.
     this.loadToCanvas();
@@ -49,6 +71,7 @@ export class CanvasComponent implements OnInit {
       this.save();
     });
 
+    // Save each Object being modified to the db
     this.canvas.on('object:modified', () => {
       this.save();
     });
@@ -66,13 +89,18 @@ export class CanvasComponent implements OnInit {
     }
   }
 
+  /**
+   * Send 'THE WHOLE CANVAS' to db to be Stored as JSON string.
+   */
   save(): void {
     if (!this.canvas) {
       return;
     }
+    // request is happening.
     this.numberOfSavesToDB++;
     console.log('Saving Your file');
-    const savePromise = this.storage.saveCanvasForUser(JSON.stringify(this.canvas.toJSON()));
+
+    const savePromise = this.storage.saveCanvasForUser(JSON.stringify(this.canvas.toJSON()), this.canvasID);
     if (savePromise) {
       savePromise.then(() => {
         this.numberOfSavesToDB--;
@@ -116,9 +144,13 @@ export class CanvasComponent implements OnInit {
    * @returns Void
    */
   loadToCanvas(): void {
-    this.storage.loadByUserID().pipe(first()).subscribe(data => {
-      if (this.canvas && data) {
-        this.canvas.loadFromJSON(data.canvas, this.canvas.renderAll.bind(this.canvas));
+
+    const userID = this.route.snapshot.paramMap.get('userID');
+    if (!userID) { return; }
+
+    this.storage.loadCanvasByUserID(userID, this.canvasID).pipe(first()).subscribe(canvas => {
+      if (this.canvas && canvas) {
+        this.canvas.loadFromJSON(canvas, this.canvas.renderAll.bind(this.canvas));
       }
       this.showOverlay = false;
     });
@@ -136,8 +168,8 @@ export class CanvasComponent implements OnInit {
 
   clear(): void {
     if (this.canvas) {
+      // clear all Objects in canvas and save the changes.
       this.canvas.remove(...this.canvas.getObjects());
-      console.log(this.canvas._objects.length);
       this.save();
     }
   }
@@ -146,8 +178,25 @@ export class CanvasComponent implements OnInit {
       if (!this.canvas) {
         return;
       }
+      // remove the selected object the save the changes.
       this.canvas.remove(...this.canvas.getActiveObjects());
       this.canvas.discardActiveObject();
       this.save();
     }
+
+    /**
+     * Share the current Canvas with the specified Email in shareTo.
+     * If 'shareTo' is not a user in the system then it would be a lost signal,
+     * which means that the user will need to reshare it again after logging in with the email specified in shareTo.
+     * Note: Currently it doesn't give a user a proper feedback if the share is lost or not.
+     */
+    share(): void {
+      this.storage.addShareCanvasByEmail(this.shareTo, {
+        id: this.canvasID,
+        to: this.shareTo,
+        from: this.auth.getCurrentUser()?.email,
+        userID: this.route.snapshot.paramMap.get('userID')
+      });
+    }
 }
+

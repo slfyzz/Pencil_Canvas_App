@@ -5,6 +5,7 @@
 
 .canvas {
   display: block;
+  padding-top: 20px;
 }
 
 .if-drawing-is-On {
@@ -74,7 +75,4 @@ span {
   padding: 0.5rem;
   border-radius: 0.3rem;
   font-family: sans-serif;
-
-
-
 }

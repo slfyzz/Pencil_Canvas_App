@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" class="expanded-toolbar">
   <span>
-    <button mat-button routerLink="/">{{title}}</button>
+    <button mat-button routerLink="/">Dashboard</button>
     <button mat-button routerLink="/"><mat-icon>home</mat-icon></button>
   </span>
   <div fxLayout="row" fxShow="false" fxShow.gt-sm>
@@ -8,13 +8,13 @@
       <mat-icon>power_settings_new</mat-icon>
       Login
     </button>
-    <button mat-button *ngIf="auth.isAuthenticated()" (click)="logout()">
+    <button mat-button *ngIf="auth.isAuthenticated()" routerLink="/login" (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
       Logout
     </button>
-    <button mat-button routerLink="/game">
-      <mat-icon>gamepad</mat-icon>
-      Play
+    <button mat-button data-toggle="modal" data-target="#canvasCreationModal" *ngIf="auth.isAuthenticated()">
+      <mat-icon>queue</mat-icon>
+      New
     </button>
   </div>
   <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
@@ -26,13 +26,34 @@
     <mat-icon>home</mat-icon>
     Home
   </button>
-  <button mat-menu-item routerLink="/game">
-    <mat-icon>gamepad</mat-icon>
-    Play
+  <button mat-menu-item  type="button" data-toggle="modal" data-target="#canvasCreationModal" *ngIf="auth.isAuthenticated()">
+    <mat-icon>queue</mat-icon>
+    New Canvas
   </button>
-  <button mat-menu-item *ngIf="auth.isAuthenticated()" (click)="logout()">
+  <button mat-menu-item *ngIf="auth.isAuthenticated()"  routerLink="/login" (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     Logout
   </button>
 </mat-menu>
+<!-- Modal -->
+<div class="modal fade" id="canvasCreationModal" tabindex="-1" aria-labelledby="canvasModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="canvasModal">Create Canvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        What do you want to name your Canvas ?
+        <mat-form-field class="example-full-width">
+          <textarea name="text" matInput [(ngModel)]="canvasName" placeholder="Canvas Name"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="createCanvas($event)">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <router-outlet></router-outlet>

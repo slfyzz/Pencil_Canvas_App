@@ -8,7 +8,7 @@
     </div>
   </i>
 </div>
-<div class="canvas-utils">
+<div class="canvas-utils" *ngIf="editable">
   <div class="form-check form-switch">
     <input class="form-check-input" type="checkbox" id="FreeDrawing" value={{freeHandDrawing}} (change)="toggleFreeHandDrawing()">
     <label class="form-check-label" for="FreeDrawing">Free-Hand Drawing</label>
@@ -26,8 +26,9 @@
     <button type="button" class="btn btn-danger ClearButton" data-toggle="modal" data-target="#ClearModal">Clear</button>
 
     <button type="button" class="btn btn-danger ClearButton" [disabled]="!canvas || canvas.getActiveObjects().length === 0" (click)="remove()">Remove</button>
+    <button type="button" class="btn btn-danger ClearButton" data-toggle="modal" data-target="#shareModal">Share</button>
 
-    <!-- Modal -->
+    <!-- Modal Clear -->
     <div class="modal fade" id="ClearModal" tabindex="-1" role="dialog" aria-labelledby="ClearModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -43,6 +44,28 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="clear()">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Share -->
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="ShareModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ShareModalLabel">Let's share your Canvas</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            To who you want to share your Canvas?
+            <input type="email" [(ngModel)]="shareTo" placeholder="foo@example.com">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="share()">Share</button>
           </div>
         </div>
       </div>

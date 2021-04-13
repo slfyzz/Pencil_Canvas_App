@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RedirectToHomePageGuard } from './redirect-to-home-page.guard';
+import { RedirectToHomePageGuardIfAuth } from './redirect-to-home-page.guard';
 
-describe('RedirectToHomePageGuard', () => {
-  let guard: RedirectToHomePageGuard;
+describe('RedirectToHomePageGuardIfAuth', () => {
+  let guard: RedirectToHomePageGuardIfAuth;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(RedirectToHomePageGuard);
+    guard = TestBed.inject(RedirectToHomePageGuardIfAuth);
   });
 
   it('should be created', () => {

@@ -7,5 +7,8 @@
         ]
       }
     }
+  },
+  "projects": {
+    "default": "pencil-assessment-39e6f"
   }
 }

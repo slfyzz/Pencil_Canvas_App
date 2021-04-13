@@ -30,6 +30,12 @@ import { environment } from '../environments/environment';
 import { CanvasComponent } from './canvas/canvas.component';
 
 import firebase from 'firebase';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 firebase.initializeApp(environment.firebase);
 
@@ -37,7 +43,9 @@ firebase.initializeApp(environment.firebase);
   declarations: [
     AppComponent,
     LoginComponent,
-    CanvasComponent
+    CanvasComponent,
+    DashboardComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +68,11 @@ firebase.initializeApp(environment.firebase);
     MatSlideToggleModule,
     MatSelectModule,
     MatOptionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
