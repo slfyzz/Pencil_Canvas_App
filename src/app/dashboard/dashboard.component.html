@@ -11,26 +11,32 @@
 
 <div *ngIf="user">
   <h1> Hello, {{user.displayName}}</h1>
-  <h3>Owned Canvas</h3>
+  <h3> Owned Canvas</h3>
 
-  <!--<button class="btn btn-primary card-buttons" (click)="createCanvas()"> Create Now</button>-->
-
-  <div *ngFor="let canvas of UserCanvasObservable | async">
-    <div class="CanvasInfo">
-      <h5 class="card-title field"> {{canvas.name}} </h5>
-      <p class="card-text"><strong> Canvas ID : </strong> {{ canvas.id }} <br></p>
-    </div>
-    <a  href="/canvas/{{ canvas.userID }}/{{ canvas.id }}" class="btn btn-primary reveal">Go To Canvas</a>
+  <div class="row row-cols-1 row-cols-md-3">
+      <div class="col mb-4" *ngFor="let canvas of UserCanvasObservable | async">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title"><strong>{{ canvas.name }}</strong></h5>
+              <p class="card-text"><strong>Canvas ID</strong> : {{ canvas.id }}</p>
+              <a href="/canvas/{{ canvas.userID }}/{{ canvas.id }}" class="btn btn-primary">Go to {{canvas.name}}</a>
+            </div>
+          </div>
+      </div>
   </div>
 
 
-  <h3>Shared Canvas</h3>
-  <div *ngFor="let canvas of SharedCanvasObservable | async">
-    <div class="CanvasInfo">
-      <h5 class="card-title">{{canvas.name}}</h5>
-      <p class="card-text"><strong> Canvas ID : </strong>{{ canvas.id }} <br> <strong> Canvas Owner : </strong>{{ canvas.from }}</p>
-    </div>
-    <a href="/canvas/{{ canvas.userID }}/{{ canvas.id }}" class="btn btn-primary reveal">Go To Canvas</a>
+<h3>Shared Canvas</h3>
+
+<div class="row row-cols-1 row-cols-md-3">
+  <div class="col mb-4" *ngFor="let canvas of SharedCanvasObservable | async">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title"><strong>{{ canvas.name }}</strong></h5>
+          <p class="card-text"> <strong>Canvas ID</strong> : {{ canvas.id }}</p>
+          <p class="card-text"> <strong> Canvas Owner : </strong>{{ canvas.from }}</p>
+          <a href="/canvas/{{ canvas.userID }}/{{ canvas.id }}" class="btn btn-primary">Go to {{canvas.name}}</a>
+        </div>
+      </div>
   </div>
 </div>
-

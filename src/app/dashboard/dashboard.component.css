@@ -9,17 +9,6 @@
   bottom: 0;
 }
 
-.reveal {
-  padding: 10px;
-  float: left;
-  width:15%
-}
-
-.CanvasInfo {
-  padding: 10px;
-  float:  left;
-  width: 80%
-}
 
 h3 {
   padding: 10px;
@@ -28,15 +17,6 @@ h3 {
   width: 100%;
 }
 
-.field {
-  float:  left;
-  width: 10%;
-}
-.editButton {
-  float: left;
-  width: 8%;
-
-}
 
 
 .card-text {
