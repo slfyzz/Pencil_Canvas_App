@@ -2,26 +2,35 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.7.
 
-## Development server
+Canvas is a web app that allows users to login via their google account, create multiple Canvases and share them with other users.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This project is part of hiring process as an assessement, it was my first try in Angular world in 7 days :)
 
-## Code scaffolding
+## Installation
+This app will install all required dependencies automatically. Just start the commands below in the root folder where you stored the package.
+```bash
+npm install
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Run Application and start development Server
 
-## Build
+To run this app in your browser just start everything with the command below in the applications root folder. It will start a simple web server on http://localhost:4200/
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```bash
+npm start
+```
 
-## Running unit tests
+## visualization
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![Alt Text](https://media.giphy.com/media/4MK3WiH5huMJhDH5OP/giphy.gif)
 
-## Running end-to-end tests
+## Features 
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. User authentication: Using Firebase to support authentication, so that the first screen a user sees, asks them to login via their google account. If the user is detected to have been already authenticated, then directly take them to Dashboard.
+2. Dashboaed: contains 2 sections:
+    a. Owned Canvases: Canvases owned by the signed user.
+    b. Shared Canvases: Canvases shared with the signed user (read-only).
+3. Canvas: show a large canvas on the page using http://fabricjs.com/ and allow the user to draw using their mouse, the user should be able to switch the stroke color and width.
+4. Everything the user draws here, is synced into the Firebase database in real-time for that user’s account, automatically, without hitting a submit button.
+5. The user is allowed to insert images from their local computers into the canvas.
+6. The user is allowed to share the canvas with another user.
