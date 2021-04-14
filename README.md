@@ -6,6 +6,8 @@ Canvas is a web app that allows users to login via their google account, create 
 
 This project is part of hiring process as an assessement, it was my first try in Angular world in 7 days :)
 
+![alt text](https://i.ibb.co/CvKG672/Ramadan.png)
+
 ## Installation
 This app will install all required dependencies automatically. Just start the commands below in the root folder where you stored the package.
 ```bash
@@ -34,3 +36,14 @@ npm start
 4. Everything the user draws here, is synced into the Firebase database in real-time for that user’s account, automatically, without hitting a submit button.
 5. The user is allowed to insert images from their local computers into the canvas.
 6. The user is allowed to share the canvas with another user.
+
+
+
+## further Improvements 
+
+1. Syncing the Canvas into Firebase database is quite inefficient
+    What the application currently does is sending the whole JSON of Fabric Canvas with any modifications by the user, which keep sending the unchanged data many times unnecessarily. 
+    attempts:
+       Sending only the changed part of the Fabric Canvas Object. But due to lack of resources, API of fabric and time, I couldn't find a way to integrate the list of objects          into the Canvas Object.
+2. More friendly User Interface.
+  
