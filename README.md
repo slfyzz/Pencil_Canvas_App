@@ -6,6 +6,8 @@ Canvas is a web app that allows users to login via their google account, create 
 
 This project is part of hiring process as an assessement, it was my first try in Angular world in 7 days :)
 
+You can try it by: https://pencil-assessment-39e6f.web.app/
+
 ![alt text](https://i.ibb.co/CvKG672/Ramadan.png)
 
 ## Installation
