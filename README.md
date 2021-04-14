@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Canvas is a web app that allows users to login via their google account, create multiple Canvases and share them with other users.
 
-This project is part of hiring process as an assessement, it was my first try in Angular world in 7 days :)
+This project is part of hiring process as an assessement, and it was my first try in Angular world in 7 days :)
 
 You can try it by: https://pencil-assessment-39e6f.web.app/
 
@@ -32,8 +32,8 @@ npm start
 
 1. User authentication: Using Firebase to support authentication, so that the first screen a user sees, asks them to login via their google account. If the user is detected to have been already authenticated, then directly take them to Dashboard.
 2. Dashboaed: contains 2 sections:
-    a. Owned Canvases: Canvases owned by the signed user.
-    b. Shared Canvases: Canvases shared with the signed user (read-only).
+    1. Owned Canvases: Canvases owned by the signed user.
+    2. Shared Canvases: Canvases shared with the signed user (read-only).
 3. Canvas: show a large canvas on the page using http://fabricjs.com/ and allow the user to draw using their mouse, the user should be able to switch the stroke color and width.
 4. Everything the user draws here, is synced into the Firebase database in real-time for that user’s account, automatically, without hitting a submit button.
 5. The user is allowed to insert images from their local computers into the canvas.
